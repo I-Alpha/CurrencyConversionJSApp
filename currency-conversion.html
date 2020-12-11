@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -136,22 +136,22 @@
         var  currencyConverterBody= `
             <body>
                    <div id="currConverterWindow" class="container ">
-                     <p class="text-center">Currency Conversion <small>GBP to NZD</small></p>
+                     <p class="text-center">Currency Conversion <small>USD -> ?</small></p>
                        <hr />
                         <form> 
                             <table>
                                 <tr id= "row1">
                                     <td>
-                                        GBP
+                                        USD
                                     </td>
                                     <td>
                                         <div class="input-group">
-                                        <label for="currencyIn"><input id="currencyIn" placeholder="£0.00"></label>  
+                                        <label for="currencyIn"><input id="currencyIn" placeholder="0.00"></label>  
                                         </div>
                                     </td>
                                     <td>
                                         <div class="output-group"> 
-                                        <label id="gbpAmountFormatted"/>
+                                        <label id="amountToFormat"/>
                                         </div>
                                     </td>
                                 </tr>
@@ -298,13 +298,13 @@
                 function updateOutput(event){
                                 updateRatio();
                                 unformated = (event.target.value * conversionRatio);                                
-                                $("#gbpAmountFormatted").text(
-                                "£" + numeral(event.target.value).format("0,0.00")
+                                $("#amountToFormat").text(
+                                 numeral(event.target.value).format("$0,0.00")
                                 );
 
                                 // show and format ??? amount                      
                                 $("#amountFormatted").val(
-                                    numeral(unformated).format("$0,0.00")
+                                    numeral(unformated).format("0,0.00")
                                 );           
                 }       
                <\/script> 
