@@ -302,7 +302,7 @@
 console.log(conversionRatio);
                                 unformated = (event.target.value * conversionRatio);                                
                                 $("#amountToFormat").text(
-                                "$ " + numeral(event.target.value).format("0,0.00")
+                                 numeral(event.target.value).format("$0,0.00")
                                 );
 
                                 // show and format ??? amount                      

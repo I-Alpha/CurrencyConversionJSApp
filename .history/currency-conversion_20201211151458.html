@@ -212,9 +212,8 @@
                     for(var i =0; i < excelRows.length;i++){
                                       $("#selectRate").append("<option value="+ excelRows[i]["COUNTRY"] +">"+ excelRows[i]["CODE"]+"  :"+ excelRows[i]["COUNTRY"]+"</option>")
                                     };
-
-                        $("#currencyIn").trigger("change", function(event){
-                                   updateOutput(event);})
+                                    
+                    updateOutput();
 
                 }                      
                
@@ -302,7 +301,7 @@
 console.log(conversionRatio);
                                 unformated = (event.target.value * conversionRatio);                                
                                 $("#amountToFormat").text(
-                                "$ " + numeral(event.target.value).format("0,0.00")
+                                 numeral(event.target.value).format("0,0.00")
                                 );
 
                                 // show and format ??? amount                      
