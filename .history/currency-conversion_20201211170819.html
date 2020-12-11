@@ -210,7 +210,7 @@
                     
                     //populate countries by rate options      
                     for(var i =0; i < excelRows.length;i++){
-                                      $("#selectRate").append("<option value='"+ excelRows[i]["COUNTRY"] +"'>"+ excelRows[i]["CODE"]+"  :"+ excelRows[i]["COUNTRY"]+"</option>")
+                                      $("#selectRate").append("<option value="+ '$excelRows[i]["COUNTRY"] +">"+ excelRows[i]["CODE"]+"  :"+ excelRows[i]["COUNTRY"]+"</option>")
                                     };
 
                         $("#currencyIn").trigger("change", function(event){
@@ -320,7 +320,7 @@
                  if(windowObjectReference == null || windowObjectReference.closed)
                     /* if the pointer to the window object in memory does not exist or if such pointer exists but the window was closed */
                 { 
-                    let params = `width=400,height=160`;
+                    let params = `width=600,height=300`;
                    toString
                     windowObjectReference=  window.open("about:blank", "CurrencyConverter", params);
                     windowObjectReference.focus();

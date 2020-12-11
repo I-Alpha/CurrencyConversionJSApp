@@ -210,7 +210,7 @@
                     
                     //populate countries by rate options      
                     for(var i =0; i < excelRows.length;i++){
-                                      $("#selectRate").append("<option value='"+ excelRows[i]["COUNTRY"] +"'>"+ excelRows[i]["CODE"]+"  :"+ excelRows[i]["COUNTRY"]+"</option>")
+                                      $("#selectRate").append("<option value="excelRows[i]["COUNTRY"]>"+ excelRows[i]["CODE"]+"  :"+ excelRows[i]["COUNTRY"]+"</option>")
                                     };
 
                         $("#currencyIn").trigger("change", function(event){
@@ -258,7 +258,7 @@
                 //using excel sheet, get rates 
                 function updateRatio(){
 
-                              var  convCountry = $("#selectRate :selected").val();
+                              var  convCountry = ($("#selectRate :selected").val()).toString();
                               var _yearIn = $("#yearIn").val() 
                               var  _yearIn_int = parseInt(_yearIn,10);                                
                               if (_yearIn_int < 2020 ||_yearIn_int == undefined || _yearIn=="" ||  _yearIn==" ")
@@ -320,9 +320,9 @@
                  if(windowObjectReference == null || windowObjectReference.closed)
                     /* if the pointer to the window object in memory does not exist or if such pointer exists but the window was closed */
                 { 
-                    let params = `width=400,height=160`;
-                   toString
-                    windowObjectReference=  window.open("about:blank", "CurrencyConverter", params);
+                    let params = `width=600,height=300`;
+                
+                    windowObjectReference=  window.open("", "Currency Converter", params);
                     windowObjectReference.focus();
                     windowObjectReference.onload = ()=>{ 
                          windowObjectReference.document.write(popUpHtml);   

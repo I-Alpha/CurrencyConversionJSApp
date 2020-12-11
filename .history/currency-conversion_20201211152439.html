@@ -210,7 +210,7 @@
                     
                     //populate countries by rate options      
                     for(var i =0; i < excelRows.length;i++){
-                                      $("#selectRate").append("<option value='"+ excelRows[i]["COUNTRY"] +"'>"+ excelRows[i]["CODE"]+"  :"+ excelRows[i]["COUNTRY"]+"</option>")
+                                      $("#selectRate").append("<option value="+ excelRows[i]["COUNTRY"] +">"+ excelRows[i]["CODE"]+"  :"+ excelRows[i]["COUNTRY"]+"</option>")
                                     };
 
                         $("#currencyIn").trigger("change", function(event){
@@ -218,7 +218,8 @@
 
                 }                      
                
-                $("#selectRate").on('change keydown select input',function (event) {
+                $("#selectRate").on('change',function (event) {
+                                updateRatio();  
                                 $("#currencyIn").trigger("change", function(event){
                                    updateOutput(event);})
                 });
@@ -241,7 +242,7 @@
                                     e.preventDefault();
                                     getExcelFile("Fx Rates.xlsx");  
                                     $("#currencyIn").val(0)
-                                    $("#currencyIn").trigger("change", function(event){
+                                    $("#currencyIn").trigger("change keydown paste input", function(event){
                                     updateOutput(event);})
                 }); 
                 
@@ -266,11 +267,14 @@
                               if(_yearIn_int>2023)
                                  _yearIn = "2023";            
                          
-                              for(let i = 0 ; i < excelRows.length; i++){                                      
+                             console.log(excelRows);
+                              for(let i = 0 ; i < excelRows.length; i++){
+                                        console.log(excelRows[i]["COUNTRY"] );                                        
+                                        console.log(convCountry);
+                                        console.log(_yearIn)
                                         if (excelRows[i]["COUNTRY"] === convCountry){ //check if row contains country attribute same as selected option in selectedRate elements
                                               conversionRatio = excelRows[i][_yearIn]
-                                              console.log("yearIn:"+_yearIn)
-                                              console.log("ratio"+conversionRatio)
+                                              console.log(conversionRatio);
                                               return;
                                          };
                             };
@@ -296,10 +300,9 @@
                 function updateOutput(event){
                                 updateRatio();
                                 console.log(conversionRatio);
-                                console.log(event.target.value); 
                                 unformated = (event.target.value * conversionRatio);                                
                                 $("#amountToFormat").text(
-                                   numeral(event.target.value).format("0,0.00")
+                                "$ " + numeral(event.target.value).format("0,0.00")
                                 );
 
                                 // show and format ??? amount                      
@@ -320,9 +323,9 @@
                  if(windowObjectReference == null || windowObjectReference.closed)
                     /* if the pointer to the window object in memory does not exist or if such pointer exists but the window was closed */
                 { 
-                    let params = `width=400,height=160`;
-                   toString
-                    windowObjectReference=  window.open("about:blank", "CurrencyConverter", params);
+                    let params = `width=600,height=300`;
+                   
+                    windowObjectReference=  window.open("about:blank", "hello", params);
                     windowObjectReference.focus();
                     windowObjectReference.onload = ()=>{ 
                          windowObjectReference.document.write(popUpHtml);   
