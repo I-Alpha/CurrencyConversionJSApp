@@ -339,10 +339,10 @@
                            //  format to a currency format using http://numeraljs.com/
                            
                 $("#currencyIn").on('change keydown paste input',function (event) {
+                                  
+                                event.target.value = (event.target.value).split(' ').join('');
                                 // show and format  ??? amount
-                                   f_event = event;
-                                   f_event.target.value = event.target.value.split(" ").join("");
-                                   updateOutput(f_event);
+                                   updateOutput(event);
                 });            
 
                 let el_r1 = document.querySelector("#row1 .col2 .input-wrap .input");
@@ -351,7 +351,7 @@
                 let widthMachine_r1 = document.querySelector("#row1 .col2 .input-wrap .width-machine");
                 let widthMachine_r2 = document.querySelector("#row2 .col2 .input-wrap .width-machine");
           
-                el_r1.addEventListener("keydown", () => {
+                el_r1.addEventListener("keyup change keydown", () => {
                         widthMachine_r1.innerHTML = el_r1.value;
                         widthMachine_r2.innerHTML = el_r2.value;
                          });
