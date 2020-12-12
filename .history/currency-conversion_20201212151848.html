@@ -65,6 +65,8 @@
                                                 box-sizing: border-box;
                                                 padding:0;
                                                 margin:0; 
+                                                border : 1px solid black;
+                                   
                                             }                                          
 
                                             body{
@@ -75,16 +77,13 @@
                                             .container{
                                                 width: 100vw;
                                                 height: 100vh;
-                                                position : relative;  
-                                                justify-content: center ;    
-                                                align-items:center;   
-                                                display:flex;
-                                                flex-direction: column;
+                                                position : relative; 
+                                 
                                             }
                                                
                                             button{
                                             
-                                                border-radius: .7rem;
+                                                border-radius: 10px;
                                                 min-width : 4rem; 
                                                 min-height: 1.7rem;
 
@@ -101,8 +100,8 @@
                                              height: 2.5rem;
                                             }
                                              .col2 input{                                                
-                                             
-                                                min-width:4rem;
+                                                width:3rem;
+                                                
                                             }
                                             .col3{
                                                 left:10px; 
@@ -121,9 +120,10 @@
                                             button{
                                                 padding : .4rem;
                                             }
-
-                                            #yearIn,
-                                              #selectRate {                                            
+                                            #yearIn{
+                                                width : 50px; 
+                                            }
+                                            #selectRate {                                            
                                                 min-height: 1.1rem; 
                                                 font-size : 1.1rem; 
                                                 width:4rem;
@@ -161,14 +161,10 @@
                                             position: relative;
                                            min-height:1rem;  
                                            display:flex;        
-                                           align-items: center;
-                                           min-width:2.5rem;
+                                            align-content: center;          
                                                 }
 
-                                             #row1 .input-wrap
-                                             {
-                                                min-width:4rem;
-                                             }
+
                                             .input-wrap .input {
                                             position: absolute;
                                             width: 100%;
@@ -202,7 +198,7 @@
                                     <td class="col2">     
                                              <span class="input-wrap">
                                                 <span class="width-machine" aria-hidden="true">0</span>
-                                                   <input id="currencyIn"  type="number" min="1"   class="input" placeholder="0.00"> 
+                                                   <input id="currencyIn"   class="input" placeholder="0.00"> 
                                              </span>                       
                                         </td>
                                     <td class="col3">                                       
