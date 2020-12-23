@@ -1,0 +1,576 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sample: currency-conversion</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link href='https://fonts.googleapis.com/css?family=RobotoDraft' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --pinkyred: #dd3f33;
+            --main_font_size: 1.6rem;
+            --selectRateFont_size : 1.4rem;
+            --currencyUpputFont_size: 4rem;
+            --button_font_size:3rem;
+            --yearInFont_size: 1.5rem;
+        }
+
+        *,
+        html {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        html,
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        p {
+            font-family: "RobotoDraft", "Roboto", sans-serif
+        }
+
+        body {
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(119, 74, 74);
+        }
+
+        button {
+            border-radius: 10px;
+            box-shadow: 0px 0px 2px 1px grey;
+        }
+
+        input {
+            text-align: center; 
+        }
+
+        select {
+            background: none;           
+
+        }
+
+
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0px 2px 2rem 5rem rgba(85, 85, 85, 0.405);
+
+
+        }
+
+        .wrapper {
+            position: relative;
+            width: 100%;
+            height: 50%;
+            display: flex;
+            border-radius: 5px 5px 0px 0px;
+
+        }
+
+        .bx-shadow-white {
+            box-shadow: 0px 2px 0 .5rem rgba(255, 255, 255, 0.405);
+            background-color: rgba(255, 255, 255, 0.405);
+            color: white;
+            padding: 2px 0px;
+            width: 60%;
+        }
+
+
+
+        #topWrapper,
+        #bottomWrapper {
+            display: flex;
+            flex-direction: column;
+            padding: .6rem 0 0 .6rem;
+        }
+
+        #topWrapper {
+            background-color: var(--pinkyred);
+            height: 50vh;
+            display: flex;
+            flex-direction: column;
+            padding-left: 1rem;
+            border-radius: 5px 5px 0px 0px;
+        }
+
+        #topWrapper .sec1 .holder:nth-child(1),
+        #topWrapper .sec2 .holder:nth-child(1),
+        #bottomWrapper .sec2 .holder:nth-child(1) {
+            justify-content: center;
+            align-content: center;
+            text-align: center;
+            display: flex;
+            position: relative;
+            flex-direction: column;
+            width: 65%;
+        }
+
+        #topWrapper .sec1 .holder:nth-child(1) {}
+
+        #topWrapper .sec1 .holder:nth-child(2) {
+            justify-content: end;
+
+        }
+
+
+
+        #topWrapper .sec2 .holder:nth-child(1) {
+            align-items: end;
+            padding-right: .2rem;
+        }
+
+        #topWrapper .sec2 .holder:nth-child(2) {
+            justify-content: center;
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            padding-left: .2rem;
+        }
+
+
+        #bottomWrapper {
+            height: 50vh;
+            position: relative;
+            background-color: white;
+            border-radius: 0px 0px 5px 5px;
+        }
+
+        #bottomWrapper .sec1 .holder {
+            right: 0;
+            position: relative;
+
+        }
+
+        #bottomWrapper .sec1 {
+            justify-content: end;
+
+        }
+
+        #bottomWrapper .sec1 .holder {
+            justify-content: end;
+        }
+
+        #bottomWrapper .sec2 .holder:nth-child(1) {
+            justify-content: start;
+            align-items: end;
+            position: relative;
+            display: flex;
+
+        }
+
+        #bottomWrapper .sec2 .holder:nth-child(2) {
+            align-items: start;
+            position: relative;
+            display: flex;
+
+        }
+
+        .filter-white {
+            position: absolute;
+            width: 250px;
+            height: 50px;
+            display: flex;
+        }
+
+        #mainContainer {
+            left: 0;
+            top: 0;
+        }
+
+        .holder {
+            width: 50%;
+            padding: .6rem .6rem;
+            display: flex;
+            position: relative;
+        }
+
+        .sec1 {
+            height: 30%;
+        }
+
+        .sec2 {
+            height: 80%
+        }
+
+        .sec1,
+        .sec2 {
+            width: 100%;
+            display: flex;
+        }
+
+        #r-holder {
+            position: absolute;
+            height: 3.5rem;
+            width: 4rem;
+            background: none;
+        }
+
+        #r-holder button {
+            width: 100%;
+            height: 100%;
+            color: white;
+            font-size: var(--button_font_size);
+            padding: 0;
+            background-color: var(--pinkyred);
+            box-shadow: 0 0 2px 1px black;
+            position: relative;
+            border: none;
+        }
+
+        input {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            box-shadow: none;
+            border: 0;
+        }
+
+        #currencyUp,
+        #currencyDown {
+            font-size: var(--currencyUpputFont_size);
+            width: 90%;
+            height: 40%;
+        }
+
+        #currencyUp {
+            color: white;
+            border-bottom: 1px solid white;
+            background: none;
+            box-shadow: none;
+
+        }
+
+        #currencyDown {
+            color: var(--pinkyred);
+            border-bottom: 1px solid var(--pinkyred);
+        }
+
+        #yearIn {
+            color: white;
+            background: none;
+            border-bottom: 1px black solid;
+            text-align: center;
+            font-size: var(--yearInFont_size);
+            max-width: 7rem;
+            padding: 2px 0px;
+
+        }
+
+        #refreshBtn {
+            width: 4rem;
+            height: 3.5rem;
+            color: var(--pinkyred);
+            background-color: white;
+            position: absolute;
+            font-size: var(--button_font_size);
+            border: none;
+
+        }
+
+
+        #copyToClipBtn {
+            height: 60%;
+            width: 65%;
+            font-size: var(--main_font_size);
+            background-color: var(--pinkyred);
+            color: white;
+            border: none;
+        }
+
+        .selectRate {
+            text-align: center;
+            padding: 2px;
+            min-height: 1.5rem;
+            min-width: 1rem;
+            width: 60%;
+            font-size: var(--selectRateFont_size);
+            margin-top: 2.3rem;
+            border: none;
+        }
+
+        .currIn{
+        }
+        .currOut{
+        }
+
+        #selectRateDown{
+            color:red;
+        }
+        #selectRateUp{
+            color:white;
+        }
+
+
+
+        /* Medium devices (landscape tablets, 768px and up) */
+        @media only screen and (min-width: 768px) {
+            .container {
+                max-width: 375px;
+                max-height: 667px;
+            }
+
+        }
+
+        /* Large devices (laptops/desktops, 992px and up) */
+        @media only screen and (min-width: 992px) {}
+    </style>
+</head>
+
+<body>
+    <div id="mainContainer" class="container">
+        <div id="topWrapper" class="wrapper currIn">
+            <div class="sec1" class="sec">
+                <div class="holder">
+                    <label class="bx-shadow-white"><input placeholder="2021" id="yearIn"  value = 2021 type="number" />
+                        <p>choose a year</p>
+                    </label>
+                </div>
+                <div class="holder">
+                    <button id="refreshBtn" class="material-icons">refresh</button>
+                </div>
+            </div>
+            <div class="sec2">
+                <div class="holder">
+                    <input id="currencyUp"  placeholder="0" />
+                </div>
+                <div class="holder">
+                    <select id="selectRateUp" class="selectRate" size=4 ></select>
+                </div>
+            </div>
+        </div>
+
+        <div id="bottomWrapper" class="wrapper currOut">
+            <div class="sec1">
+                <div class="holder">
+                    <button id="copyToClipBtn"> COPY </button>
+                </div>
+            </div>
+            <div class="sec2">
+                <div class="holder">
+                    <input id="currencyDown" placeholder="0" />
+                </div>
+                <div class="holder">
+                    <select id="selectRateDown"  class="selectRate" size=4></select>
+                </div>
+            </div>
+        </div>
+
+        <div id="r-holder">
+            <button id="switchBtn" class="material-icons">swap_calls</button>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () { 
+           
+          
+            startCC();
+        
+         })
+
+
+        var Data = 0
+        var unformated = "";
+        var conversionRatio = 0;
+        function startCC() {                     
+            getExcelFile("Fx Rates.xlsx");                              
+            $(".selectRate").on('change keydown select input', function (event) {$("#currencyUp").trigger("change");});
+            $("#copyToClipBtn").on('click', function (e) {e.preventDefault();copyToClipboard();}); 
+            $("#refreshBtn").on("click", function (e) {e.preventDefault();getExcelFile("Fx Rates.xlsx"); $("#currencyUp").trigger("change");});//refresh by getExcel and clearing fields
+            $("#switchBtn").on("click",function(e){e.preventDefault(); 
+                var temp1 = $(".currIn .selectRate").val();
+                var temp2 = $(".currOut .selectRate").val();
+                $(".currOut .selectRate").val(temp1).change()
+                $(".currIn .selectRate").val(temp2).change()
+            })                
+            $("#yearIn").on('change keydown paste input', function () {$(".currIn input").trigger("change");});
+            $(".currIn .sec2 input").on('change keydown paste input', function (event) {
+            // show and format  ??? amount
+            f_event = event;
+            f_event.target.value = event.target.value.split(" ").join("");
+            updateOutput(f_event);});
+            
+        }
+        
+        function getExcelFile(filename) {
+
+            //send request to server to get Excelfile
+            var host = location.origin
+            var Url = host + "/" + filename;
+            var req = new XMLHttpRequest();
+            req.open("GET", Url, true);
+            req.responseType = "arraybuffer";      
+            var data2 = []     
+            req.onload = function (e) {
+                  var data = new Uint8Array(req.response);         
+                  populate(ProcessExcel(data));      
+            }
+             req.send();
+            // $.ajax({
+            //     url: Url,
+            //     success:function(Data){
+            //       Data = excel.Workbooks.Open(Data)
+            //       ProcessExcel(Data)
+            //     }
+            // }) 
+        };
+
+        function ProcessExcel(data) {
+            //Read and process from ExcelSheet.xlsx. Must be in specific format as template. 
+            // questions text columns respectively. 
+            var workbook = XLSX.read(data, {
+                type: "array"
+            })
+            excelData = workbook
+            var firstSheet = workbook.SheetNames[0];
+            var excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[firstSheet]);
+            Data = excelRows
+           return excelRows
+        } 
+        
+        function populate(data){           
+            Data= data
+            populateRates(data); 
+            sortRates()
+        }
+
+        function populateRates(data) {
+           var excelRows = data      
+           $(".selectRate").each( function (index, element  ) {
+               console.log(index)
+               element = $(element)
+               var defaultCode = ["GBP","USD"]
+               var temp=""
+                   for (var i = 0; i < excelRows.length; i++) {          
+                        // if (excelRows[i]["CODE"] == defaultCode)
+                        //    temp = "selected"
+                        element.append("<option value='" + excelRows[i]["CODE"] +"'>" + excelRows[i]["CODE"] +"</option>")            
+                        // if (temp = "selected")
+                        //     temp =""
+                     } 
+                
+                if (index==0)
+                    element.val(defaultCode[0])
+                else
+                   { element.val(defaultCode[1])} 
+                sortRates()
+                
+            })      
+        }
+        var sortRates=(element=$(".selectRate"))=>{        
+                           tempelement.find('option').sort(function(x, y) {
+                            // to change to descending order switch "<" for ">"
+                            return $(x).text() > $(y).text() ? 1 : -1;
+                            });
+                       }
+        function copyToClipboard() {
+            var $temp = $("<input>");
+            $("body").append($temp);
+            $temp.val(unformated).select();
+            document.execCommand("copy");
+            alert("Copy successful !")
+            $temp.remove();
+        }
+   
+        function updateRatio() {
+            var excelRows =Data
+            var convCountry = $(".currIn .selectRate :selected").val();
+            var _yearIn = $("#yearIn").val()
+            var _yearIn_int = parseInt(_yearIn, 10);
+            if (_yearIn_int < 2020 || _yearIn_int == undefined || _yearIn == "" || _yearIn == " ")
+                _yearIn = "2020";
+            if (_yearIn_int > 2023)
+                _yearIn = "2023";
+            console.log("Year: " + _yearIn)
+            for (let i = 0; i < excelRows.length; i++) {
+                if (excelRows[i]["CODE"] ===
+                    convCountry) { //check if row contains country attribute same as selected option in selectedRate elements
+                    conversionRatio = excelRows[i][_yearIn]
+                    return;
+                };
+            };
+        };
+ 
+        // let el_r1 = document.querySelector("#row1 .col2 .input-wrap .input");
+        // let el_r2 = document.querySelector("#row2 .col2 .input-wrap .input");
+
+        // let widthMachine_r1 = document.querySelector("#row1 .col2 .input-wrap .width-machine");
+        // let widthMachine_r2 = document.querySelector("#row2 .col2 .input-wrap .width-machine");
+
+        // el_r1.addEventListener("keydown", () => {
+        //         widthMachine_r1.innerHTML = el_r1.value;
+        //         widthMachine_r2.innerHTML = el_r2.value;
+        //          });
+
+        function updateOutput(event) {
+            updateRatio();
+            console.log("Conv Ratio: " + conversionRatio);
+            console.log("Value: " + event.target.value);
+            unformated = (event.target.value * conversionRatio);
+            $("#amountToFormat").text(
+                numeral(event.target.value).format("$0,0.00")
+            );
+            // show and format ??? amount                      
+            $(".currOut .sec2 input").val(
+                numeral(unformated).format("0,0.00")
+            );
+        }
+
+
+
+        function OpenCurrConverter() {
+
+            var elem = document.createElement("label");
+
+            if (windowObjectReference == null || windowObjectReference.closed)
+            /* if the pointer to the window object in memory does not exist or if such pointer exists but the window was closed */
+            {
+                let params = `width=400,height=200`;
+                toString
+                windowObjectReference = window.open("about:blank", "CurrencyConverter", params);
+                windowObjectReference.focus();
+                windowObjectReference.onload = () => {
+                    windowObjectReference.document.write(popUpHtml);
+                };
+
+
+                /* then create it. The new window will be created and
+                will be brought on top of any other window. */
+            } else {
+                windowObjectReference.focus();
+                /* else the window reference must exist and the window
+                is not closed; therefore, we can bring it back on top of any other
+                window with the focus() method. There would be no need to re-create
+                the window or to reload the referenced resource. */
+            };
+
+
+        }
+    </script>
+</body>
+
+</html>

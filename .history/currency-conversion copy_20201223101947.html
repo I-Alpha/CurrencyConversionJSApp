@@ -1,0 +1,456 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sample: currency-conversion</title>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+</head>
+<style>
+    *,html {
+          box-sizing: border-box;
+          padding:0;
+          margin:0; 
+          overflow: hidden;
+          scrollbar-width: 0;          
+    }
+    button{
+          border-radius: 10%;
+          min-width : 4rem; 
+          min-height: 1.7rem;
+          
+    }
+    
+</style>
+<body>
+    <div id="sampleDiv" class="container">        
+        <label for="popupBtn"><button  id = "popupBtn" class=" button">Currency Converter</button></label>
+    </div>
+    
+  
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+    <script type="text/javascript">
+        //Example use
+        $(document).ready(function () {
+        
+        $("#popupBtn").on("click", function (event) {
+            event.preventDefault();
+            OpenCurrConverter(); 
+            
+            });
+        });
+        //Example use
+
+ //Code for Currenvc conversion begins here
+      
+        var currConverterHead =`
+                            <head>
+                                <meta charset="utf-8">
+                                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                                <meta name="viewport" content="width=device-width, initial-scale=1">
+                                    <title>Sample: currency-conversion<\/title>
+                                    <script src="https://code.jquery.com/jquery-3.2.1.min.js"><\/script>
+                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"><\/script>  
+                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"><\/script>
+                                <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"><\/script>                                       
+                                        <style>
+                                            *,html {
+                                                box-sizing: border-box;
+                                                padding:0;
+                                                margin:0; 
+                                            }                                          
+
+                                            body{
+                                            
+                                              
+                                            }
+                                            
+                                            .container{
+                                                width: 100vw;
+                                                height: 100vh;
+                                                position : relative;  
+                                                justify-content: center ;    
+                                                align-items:center;   
+                                                display:flex;
+                                                flex-direction: column;
+                                            }
+                                               
+                                            button{
+                                            
+                                                border-radius: .7rem;
+                                                min-width : 4rem; 
+                                                min-height: 1.7rem;
+
+                                            }  
+                                      
+                                            .col1{
+                                                text-align:end;
+                                                min-width:4rem;
+                                            }
+                                            .col2{
+                                             
+                                                display:flex;
+                                              
+                                             height: 2.5rem;
+                                            }
+                                             .col2 input{                                                
+                                             
+                                                min-width:4rem;
+                                            }
+                                            .col3{
+                                                left:10px; 
+                                            }
+                                         
+
+                                            td #amountToFormat{ 
+                                                      
+                                            }
+
+                                            td{ 
+                                                min-height :1.3rem;
+                                                 height : 2rem:
+                                            }
+
+                                            button{
+                                                padding : .4rem;
+                                            }
+
+                                            #yearIn,
+                                              #selectRate {                                            
+                                                min-height: 1.1rem; 
+                                                font-size : 1.1rem; 
+                                                width:4rem;
+                                            }
+
+                                            #amountFormatted{
+                                                background-color: lightgrey;
+                                                
+                                            }
+                                            #currConverterWindow table{
+                                                padding-top : .4rem;
+                                            }
+
+                                            #currConverterWindow {
+                                                    padding-top: .5rem;  
+                                            }
+                                            #currConverterWindow table tr  td{
+                                                   padding : .2rem;
+                                            
+                                        }
+                                       #copyToClipBtn{
+                                          position:relative; 
+                                         right:0;
+                                        }
+
+                                            #currConverterWindow table tr {
+                                                    padding:.2rem .7rem ;    
+                                            }
+
+                                            #currConverterWindow table tr#row3 {
+                                            
+                                            }
+
+                                            .input-wrap {
+                                            position: relative;
+                                           min-height:1rem;  
+                                           display:flex;        
+                                           align-items: center;
+                                           min-width:2.5rem;
+                                                }
+
+                                             #row1 .input-wrap
+                                             {
+                                                min-width:4rem;
+                                             }
+                                            .input-wrap .input {
+                                            position: absolute;
+                                            width: 100%;
+                                            left:0;
+                                            padding:.2rem; 
+                                            border-radius : 9px;   
+                                            min-width:2rem;
+                                            
+                                            }
+                                            .width-machine {
+                                            /*   Sort of a magic number to add extra space for number spinner */
+                                            padding: 0 1rem;
+                                            font-size :16px;
+                                            width:100%;
+                                            height:2rem;
+                                             }
+                                        <\/style>
+                            <\/head>`
+       
+        var  currencyConverterBody= `
+            <body>
+    <div id="mainContainer" class="container">
+        <div id="topWrapper" class="wrapper currIn">
+            <div class="sec1" class="sec">
+                <div class="holder">
+                    <label class="bx-shadow-white"><input placeholder="2021" id="yearIn" value=2021 type="number" />
+                        <p>choose a year</p>
+                    </label>
+                </div>
+                <div class="holder">
+                    <button id="refreshBtn" class="material-icons">refresh</button>
+                </div>
+            </div>
+            <div class="sec2">
+                <div class="holder">
+                    <input id="currencyUp" placeholder="0" />
+                </div>
+                <div class="holder">
+                    <select id="selectRateUp" class="selectRate" size=4></select>
+                </div>
+            </div>
+        </div>
+
+        <div id="bottomWrapper" class="wrapper currOut">
+            <div class="sec1">
+                <div class="holder">
+                    <button id="copyToClipBtn"> COPY </button>
+                </div>
+            </div>
+            <div class="sec2">
+                <div class="holder">
+                    <input id="currencyDown" placeholder="0" value="0" />
+                </div>
+                <div class="holder">
+                    <select id="selectRateDown" class="selectRate" size=1></select>
+                </div>
+            </div>
+        </div>
+
+        <div id="r-holder">
+            <button id="switchBtn" class="material-icons">swap_calls</button>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+          
+            startCC();
+            $("#currencyIn").trigger("change");
+        })        
+        var Data = 0
+        var unformated = "";
+        var conversionRatio = 0;
+        var denominatorRatio = 0
+
+        function startCC() {
+            getExcelFile("Fx Rates.xlsx");
+            $(".selectRate").on('change keydown select input', function (event) {
+                $(".currIn .sec2 input").trigger("change");
+            });
+            $("#copyToClipBtn").on('click', function (e) {
+                e.preventDefault();
+                copyToClipboard();
+            });
+            $("#refreshBtn").on("click", function (e) {
+                e.preventDefault();
+                window.location.reload(true);
+            }); //refresh by getExcel and clearing fields
+            $("#switchBtn").on("click", function (e) {
+                e.preventDefault();
+                var temp1 = $(".currIn .selectRate").val();
+                var temp2 = $(".currOut .selectRate").val();
+                $(".currOut .selectRate").val(temp1).change()
+                $(".currIn .selectRate").val(temp2).change()
+                sortRates()
+            })
+            $("#yearIn").on('change keydown paste input', function () {
+                $(".currIn input").trigger("change");
+            });
+            $(".currIn .sec2 input").on('change keydown paste input', function (event) {
+                f_event = event;
+                f_event.target.value = event.target.value.split(" ").join("");
+                updateRatio();
+                updateOutput(f_event);
+            });
+
+        }
+
+        function getExcelFile(filename) {
+
+            //send request to server to get Excelfile
+            var host = location.origin
+            var Url = host + "/" + filename;
+            var req = new XMLHttpRequest();
+            req.open("GET", Url, true);
+            req.responseType = "arraybuffer";
+            var data2 = []
+            req.onload = function (e) {
+                var data = new Uint8Array(req.response);
+                populate(ProcessExcel(data));
+            }
+            req.send();
+            // $.ajax({
+            //     url: Url,
+            //     success:function(Data){
+            //       Data = excel.Workbooks.Open(Data)
+            //       ProcessExcel(Data)
+            //     }
+            // }) 
+        };
+
+        function ProcessExcel(data) {
+            //Read and process from ExcelSheet.xlsx. Must be in specific format as template. 
+            // questions text columns respectively. 
+            var workbook = XLSX.read(data, {
+                type: "array"
+            })
+            excelData = workbook
+            var firstSheet = workbook.SheetNames[0];
+            var excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[firstSheet]);
+            Data = excelRows
+            return excelRows
+        }
+
+        function populate(data) {
+            Data = data
+            populateRates(data);
+
+        }
+
+        function populateRates(data) {
+            var excelRows = data
+            $(".selectRate").each(function (index, element) {
+                console.log(index)
+                element = $(element)
+                var defaultCode = ["GBP", "USD"]
+                var temp = ""
+                for (var i = 0; i < excelRows.length; i++) {
+                    // if (excelRows[i]["CODE"] == defaultCode)
+                    //    temp = "selected"
+                    element.append("<option value='" + excelRows[i]["CODE"] + "'>" + excelRows[i]["CODE"] +
+                        "</option>")
+                    // if (temp = "selected")
+                    //     temp =""
+                }
+
+                if (index == 0)
+                    element.val(defaultCode[0])
+                else {
+                    element.val(defaultCode[1])
+                }
+                sortRates()
+
+            })
+        }
+        var sortRates = () => {
+            $(".selectRate").each(function (e, element) {
+                $(this).html(
+                    $(this).find('option').sort(function (x, y) {
+                        // to change to descending order switch "<" for ">"
+                        return $(x).text() > $(y).text() ? 1 : -1;
+                    }))
+            })
+        }
+
+        function updateRatio() {
+            var excelRows = Data
+            var convCountryIn = $(".currIn .selectRate :selected").val();
+            var convCountryOut = $(".currOut .selectRate :selected").val();
+            var conversionRatioIn = 0;
+            var conversionRatioOut = 0;
+            var _yearIn = $("#yearIn").val()
+            var _yearIn_int = parseInt(_yearIn, 10);
+            if (_yearIn_int < 2020 || _yearIn_int == undefined || _yearIn == "" || _yearIn == " ")
+                _yearIn = "2020";
+            if (_yearIn_int > 2023)
+                _yearIn = "2023";
+            console.log("Year: " + _yearIn);
+            let cVals = [convCountryIn, convCountryOut];
+            cVals.forEach(function (x, q) {
+                for (let i = 0; i < excelRows.length; i++) {
+                    if (excelRows[i]["CODE"] ===
+                        x) { //check if row contains country attribute same as selected option in selectedRate elements
+                        if (q == 0)
+                            conversionRatioIn = excelRows[i][_yearIn]
+                        else
+                            conversionRatioOut = excelRows[i][_yearIn]
+                        return;
+                    };
+                }
+                ''
+            });
+            conversionRatio = conversionRatioOut / conversionRatioIn;
+        };
+        var globalRatio = 0
+
+        // let el_r1 = document.querySelector("#row1 .col2 .input-wrap .input");
+        // let el_r2 = document.querySelector("#row2 .col2 .input-wrap .input");
+
+        // let widthMachine_r1 = document.querySelector("#row1 .col2 .input-wrap .width-machine");
+        // let widthMachine_r2 = document.querySelector("#row2 .col2 .input-wrap .width-machine");
+
+        // el_r1.addEventListener("keydown", () => {
+        //         widthMachine_r1.innerHTML = el_r1.value;
+        //         widthMachine_r2.innerHTML = el_r2.value;
+        //          });
+
+
+        function updateOutput(event) {
+            console.log("Conv Ratio: " + conversionRatio);
+            console.log("Value: " + event.target.value);
+            unformated = (event.target.value * conversionRatio);
+            $(".currOut .sec2 input").val(numeral(unformated).format("0,0.00"));
+        }
+
+        function copyToClipboard() {
+            var $temp = $("<input>");
+            $temp.css("opacity", "0")
+            $temp.css("position", "absolute")
+            $("body").append($temp);
+            $temp.val(unformated).select();
+            document.execCommand("copy");
+            alert("Copy successful !")
+            $temp.remove();
+        }
+     </script>
+</body>
+
+             `         
+        var windowObjectReference = null;
+        var popUpHtml = '<html>' + currConverterHead+currencyConverterBody+'<\/html>' ;  
+       
+        function OpenCurrConverter(){
+       
+                var elem = document.createElement("label");
+               
+                 if(windowObjectReference == null || windowObjectReference.closed)
+                    /* if the pointer to the window object in memory does not exist or if such pointer exists but the window was closed */
+                { 
+                    let params = `width=400,height=200`;
+                   toString
+                    windowObjectReference=  window.open("about:blank", "CurrencyConverter", params);
+                    windowObjectReference.focus();
+                    windowObjectReference.onload = ()=>{ 
+                         windowObjectReference.document.write(popUpHtml);   
+                        };          
+ 
+               
+                /* then create it. The new window will be created and
+                will be brought on top of any other window. */
+                }
+                else
+                { 
+                       windowObjectReference.focus();
+                        /* else the window reference must exist and the window
+                        is not closed; therefore, we can bring it back on top of any other
+                        window with the focus() method. There would be no need to re-create
+                        the window or to reload the referenced resource. */
+                };
+
+                
+         }    
+    </script>
+</body>
+
+</html>
