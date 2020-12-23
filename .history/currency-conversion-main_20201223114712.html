@@ -586,21 +586,22 @@
                     element.val(defaultCode[0])
                 else {
                     element.val(defaultCode[1])
-                }  
-              
+                } 
+                sortRates()
             })
         }
-        // var sortRates = () => {
-        //     $(".selectRate").each(function (e, element) {
-        //         var temp =  $(this).html();
-        //         $(this).html('');
-        //         $(this).html(
-        //             temp.find('option').sort(function (x, y) {
-        //                 // to change to descending order switch "<" for ">"
-        //                 return $(x).text() > $(y).text() ? 1 : -1;
-        //             }))                              
-        //     })
-        // }
+        var sortRates = () => {
+            $(".selectRate").each(function (e, element) {
+                
+                var temp =  $(this).clone;
+                $(this).html('');
+                $(this).html(
+                    temp.find('option').sort(function (x, y) {
+                        // to change to descending order switch "<" for ">"
+                        return $(x).text() > $(y).text() ? 1 : -1;
+                    }))
+            })
+        }
 
         function updateRatio() {
             var excelRows = Data

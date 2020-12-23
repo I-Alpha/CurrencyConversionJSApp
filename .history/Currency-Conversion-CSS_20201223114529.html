@@ -6,94 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sample: currency-conversion</title>
-        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
-</head>
-<style>
-    *,html {
-          box-sizing: border-box;
-          padding:0;
-          margin:0; 
-          overflow: hidden;
-          scrollbar-width: 0;          
-    }
-    button{
-          border-radius: 10%;
-          min-width : 4rem; 
-          min-height: 1.7rem;
-          
-    }
-    
-</style>
-<body>
-    <div id="sampleDiv" class="container">        
-        <label for="popupBtn"><button  id = "popupBtn" class=" button">Currency Converter</button></label>
-    </div>
-    
-  
-
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
-    <script type="text/javascript">
-        //Example use
-        $(document).ready(function () {
-        
-        $("#popupBtn").on("click", function (event) {
-            event.preventDefault();
-            OpenCurrConverter(); 
-            
-            });
-        });
-        //Example use
-
- //Code for Currenvc conversion begins here
-      
-         
-        var windowObjectReference = null;
-   
-       
-        function OpenCurrConverter(){
-                var popUpHtml = '<html>' + currConverterHead+currencyConverterBody+'<\/html>' ;  
-                var elem = document.createElement("body");
-               
-                 if(windowObjectReference == null || windowObjectReference.closed)
-                    /* if the pointer to the window object in memory does not exist or if such pointer exists but the window was closed */
-                { 
-                    let params = `width=400,height=700`;
-                   toString
-                    windowObjectReference=  window.open("about:blank", "CurrencyConverter", params);
-                    windowObjectReference.focus();
-                    windowObjectReference.onload = ()=>{ 
-                         windowObjectReference.document.write(popUpHtml);   
-                        };          
- 
-               
-                /* then create it. The new window will be created and
-                will be brought on top of any other window. */
-                }
-                else
-                { 
-                       windowObjectReference.focus();
-                        /* else the window reference must exist and the window
-                        is not closed; therefore, we can bring it back on top of any other
-                        window with the focus() method. There would be no need to re-create
-                        the window or to reload the referenced resource. */
-                };
-
-                
-         }
-     var currConverterHead =`
-     <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sample: currency-conversion<\/title>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"><\/script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"><\/script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"><\/script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"><\/script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link href='https://fonts.googleapis.com/css?family=RobotoDraft' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -428,57 +344,58 @@
 
         /* Large devices (laptops/desktops, 992px and up) */
         @media only screen and (min-width: 992px) {}
-    <\/style>
-<\/head>`
-       
-        var  currencyConverterBody= `
-            <body>
+    </style>
+</head>
+
+<body>
     <div id="mainContainer" class="container">
         <div id="topWrapper" class="wrapper currIn">
             <div class="sec1" class="sec">
                 <div class="holder">
-                    <label class="bx-shadow-white"><input placeholder="2021" id="yearIn" value=2021 type="number" \/>
-                        <p>choose a year<\/p>
-                    <\/label>
-                <\/div>
+                    <label class="bx-shadow-white"><input placeholder="2021" id="yearIn" value=2021 type="number" />
+                        <p>choose a year</p>
+                    </label>
+                </div>
                 <div class="holder">
-                    <button id="refreshBtn" class="material-icons">refresh<\/button>
-                <\/div>
-            <\/div>
+                    <button id="refreshBtn" class="material-icons">refresh</button>
+                </div>
+            </div>
             <div class="sec2">
                 <div class="holder">
-                    <input id="currencyUp" placeholder="0" \/>
-                <\/div>
+                    <input id="currencyUp" placeholder="0" />
+                </div>
                 <div class="holder">
-                    <select id="selectRateUp" class="selectRate" size=4><\/select>
-                <\/div>
-            <\/div>
-        <\/div>
+                    <select id="selectRateUp" class="selectRate" size=4></select>
+                </div>
+            </div>
+        </div>
 
         <div id="bottomWrapper" class="wrapper currOut">
             <div class="sec1">
                 <div class="holder">
-                    <button id="copyToClipBtn"> COPY <\/button>
-                <\/div>
-            <\/div>
+                    <button id="copyToClipBtn"> COPY </button>
+                </div>
+            </div>
             <div class="sec2">
                 <div class="holder">
-                    <input id="currencyDown" placeholder="0" value="0" \/>
-                <\/div>
+                    <input id="currencyDown" placeholder="0" value="0" />
+                </div>
                 <div class="holder">
-                    <select id="selectRateDown" class="selectRate" size=1><\/select>
-                <\/div>
-            <\/div>
-        <\/div>
+                    <select id="selectRateDown" class="selectRate" size=1></select>
+                </div>
+            </div>
+        </div>
 
         <div id="r-holder">
-            <button id="switchBtn" class="material-icons">swap_calls<\/button>
-        <\/div>
-    <\/div>
-    <script type="text/javascript"> 
-        startCC();
-        $("#currencyIn").trigger("change");
-
+            <button id="switchBtn" class="material-icons">swap_calls</button>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+          
+            startCC();
+            $("#currencyIn").trigger("change");
+        })        
         var Data = 0
         var unformated = "";
         var conversionRatio = 0;
@@ -522,7 +439,7 @@
                 updateOutput(f_event);
             });
 
-        }
+         }
 
         function getExcelFile(filename) {
 
@@ -577,7 +494,7 @@
                     // if (excelRows[i]["CODE"] == defaultCode)
                     //    temp = "selected"
                     element.append("<option value='" + excelRows[i]["CODE"] + "'>" + excelRows[i]["CODE"] +
-                        "<\/option>")
+                        "</option>")
                     // if (temp = "selected")
                     //     temp =""
                 }
@@ -586,21 +503,20 @@
                     element.val(defaultCode[0])
                 else {
                     element.val(defaultCode[1])
-                }  
-              
+                }
+                sortRates()
+
             })
         }
-        // var sortRates = () => {
-        //     $(".selectRate").each(function (e, element) {
-        //         var temp =  $(this).html();
-        //         $(this).html('');
-        //         $(this).html(
-        //             temp.find('option').sort(function (x, y) {
-        //                 // to change to descending order switch "<" for ">"
-        //                 return $(x).text() > $(y).text() ? 1 : -1;
-        //             }))                              
-        //     })
-        // }
+        var sortRates = () => {
+            $(".selectRate").each(function (e, element) {
+                $(this).html(
+                    $(this).find('option').sort(function (x, y) {
+                        // to change to descending order switch "<" for ">"
+                        return $(x).text() > $(y).text() ? 1 : -1;
+                    }))
+            })
+        }
 
         function updateRatio() {
             var excelRows = Data
@@ -627,7 +543,7 @@
                         return;
                     };
                 }
-                ''
+            createElement
             });
             conversionRatio = conversionRatioOut / conversionRatioIn;
         };
@@ -662,9 +578,7 @@
             alert("Copy successful !")
             $temp.remove();
         }
-     <\/script>
-<\/body>
-             `           
-    </script>
+     </script>
 </body>
+
 </html>
